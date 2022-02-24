@@ -12,7 +12,8 @@ class BasePreProcessor(ABC):
 
     :param data_name: string, the name of dataset
     :param data_info: pd.DataFrame(header = ["raw_path", "start_time", "end_time", "gap_time", "name"]),
-                        or pd.DataFrame(header = ["raw_path", "start_time", "end_time", "gap_time", "within_warning_name", "before_warning_name"]),
+                        or pd.DataFrame(header = ["raw_path", "start_time", "end_time", "gap_time",
+                        "within_warning_name", "before_warning_name"]),
                         the information of every singal
     :param data_type: string, 'bi_class' or 'multi_class'
     """

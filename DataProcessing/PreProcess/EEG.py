@@ -1,4 +1,4 @@
-from preprocess.base import BasePreProcessor
+from DataProcessing.PreProcess import BasePreProcessor
 
 class EEGPreProcessor(BasePreProcessor):
 

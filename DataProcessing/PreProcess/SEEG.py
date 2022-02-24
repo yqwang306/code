@@ -4,13 +4,14 @@
 
 """ Preprocessing Pipeline For SEEG Dataset """
 
-from preprocess.base import BasePreProcessor
+from DataProcessing.PreProcess import BasePreProcessor
 from util.seeg_utils import *
 import os
 import pandas as pd
 
 class SEEGPreProcessor(BasePreProcessor):
 
+    @classmethod
     def get_bi_class_data_info(self):
         """
         return the metadata of our bi class dataset
@@ -47,6 +48,7 @@ class SEEGPreProcessor(BasePreProcessor):
         })
         return ["LK", data_info_LK, 'bi_class']
 
+    @classmethod
     def get_extended_bi_class_info(self):
         """
         return the metadata of our bi class dataset
@@ -155,6 +157,7 @@ class SEEGPreProcessor(BasePreProcessor):
             ["JWJ", data_info_JWJ, 'bi_class']
         ]
 
+    @classmethod
     def get_multi_class_data_info(self):
         """
         return the metadata of our multi class dataset
