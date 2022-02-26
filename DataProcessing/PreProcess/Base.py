@@ -20,7 +20,7 @@ class BasePreProcessor(ABC):
 
     data_name = None # the name of the dataset
     data_info = None  # a df contains raw_path, endtime and name respectively
-    data_type = None # bi class or not
+    data_type = None # bi class or multi class
 
     def __init__(self, data_name, data_info, data_type):
         self.data_name = data_name
@@ -46,17 +46,6 @@ class BasePreProcessor(ABC):
     @abstractmethod
     def multi_class_handle(self):
         print("call multi_class_handle() from base")
-        pass
-
-    @staticmethod
-    def filter_noise():
-        print("call filter_noise() from base")
-        # TODO
-        pass
-
-    @staticmethod
-    def normalise():
-        # TODO
         pass
 
 

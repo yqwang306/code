@@ -3,17 +3,20 @@
 # Date: 24.02.2022
 
 from DataProcessing import (
-    PreProcess
+    PreProcess, Transform
 )
 
 from DataProcessing.PreProcess.Base import BasePreProcessor
 from DataProcessing.PreProcess.EEG import EEGPreProcessor
 from DataProcessing.PreProcess.SEEG import SEEGPreProcessor
 
-# TODO: ADD Transfer part
+from DataProcessing.Transform.Base import BaseTransformer, SEEGBaseTransformer
+from DataProcessing.Transform.StageHandler import SEEGStageHandler
 
 __all__ = [
     'BasePreProcessor',
     'SEEGPreProcessor',
-    'EEGPreProcessor'
+    'EEGPreProcessor',
+    'SEEGBaseTransformer',
+    'SEEGStageHandler'
 ]

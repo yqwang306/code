@@ -4,6 +4,7 @@
 
 import mne
 import os
+import numpy as np
 
 def read_raw(path):
     """
@@ -76,3 +77,81 @@ def os_mkdir(save_dir, dir):
         print("new dir has been created! {}".format(new_path))
     else:
         print("{} dir is existed!".format(new_path))
+
+def filter_hz(raw, high_pass, low_pass):
+    """
+    Perform signal filtering, extract signal that ranges from (high_pass, low_pass)
+
+    :param raw: raw data
+    :param high_pass: float, maximum threshold
+    :param low_pass: float, minimum threshold
+    :return:
+    """
+
+    raw.filter(high_pass, low_pass, fir_design='firwin')
+    return raw
+
+def read_raw(path):
+    """
+    load in raw data that stored in the given path
+
+    :param path: string, path of raw data
+    :return:
+    """
+    raw = mne.io.read_raw_fif(path, preload=True)
+    return raw
+
+def select_channel_data_mne(raw, select_channel_name):
+    """
+    reselect channel based on its order
+
+    :param raw:
+    :param select_channel_name:
+    :return:
+    """
+
+    chan_name = select_channel_name
+    specific_chans = raw.copy().pick_channels(chan_name)
+    return specific_chans
+
+def split_data(raw, time_step):
+    """
+    Split the signal data into segments
+
+    :param raw:
+    :param time_step:
+    :return:
+    """
+
+    data_split = []
+    end = max(raw.times)
+    epoch = int(end // time_step)
+    fz = int(len(raw) / end)  # 采样频率
+    for index in range(epoch - 1):
+        start = index * fz * time_step
+        stop = (index + 1) * fz * time_step
+        data, time = raw[:, start:stop]
+        data_split.append(data)
+    return data_split
+
+def save_numpy_info(data, path):
+    """
+    save numpy file
+
+    :param data:
+    :param path:
+    :return:
+    """
+    if os.path.exists(path):
+        print("File is exist!!!")
+        return False
+    else:
+        np.save(path, data)
+        print("Successfully save!")
+        return True
+
+def get_all_path(path_dir):
+    all_path = []
+    for p in os.listdir(path_dir):
+        all_path.append(os.path.join(path_dir, p))
+    return all_path
