@@ -5,6 +5,7 @@
 import mne
 import os
 import numpy as np
+import glob
 
 def read_raw(path):
     """
@@ -155,3 +156,21 @@ def get_all_path(path_dir):
     for p in os.listdir(path_dir):
         all_path.append(os.path.join(path_dir, p))
     return all_path
+
+def get_all_file_path(path, suffix='fif'):
+    '''
+    get the paths of all files under every sub-directory
+
+    :param path: 存储对应文件的路径
+    :return: map, {dir_path:[file1, file2, file3...]}文件夹下面对应的文件路径
+    '''
+
+    file_map = {}
+    path_dir = []
+    dirs = os.listdir(path)
+    for d in dirs:
+        path_dir.append(os.path.join(path, d))
+        new_suffix = '*.' + suffix
+        file_p = glob.glob(os.path.join(d, new_suffix))
+        file_map[d] = file_p
+    return file_map

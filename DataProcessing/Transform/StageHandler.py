@@ -158,3 +158,8 @@ class SEEGStageHandler(SEEGBaseTransformer):
             'LK_before_warning': df_LK_before_warning_info,
             'LK_within_warning': df_LK_within_warning_info
         }
+
+
+# preprocessor -> extract
+# transformer -> split segment
+# data_process -> split train/test

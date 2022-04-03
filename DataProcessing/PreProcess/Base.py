@@ -18,9 +18,9 @@ class BasePreProcessor(ABC):
     :param data_type: string, 'bi_class' or 'multi_class'
     """
 
-    data_name = None # the name of the dataset
+    data_name = None  # the name of the dataset
     data_info = None  # a df contains raw_path, endtime and name respectively
-    data_type = None # bi class or multi class
+    data_type = None  # bi class or multi class
 
     def __init__(self, data_name, data_info, data_type):
         self.data_name = data_name
