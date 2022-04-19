@@ -7,5 +7,9 @@ from abc import ABC, abstractmethod
 class BaseDataset(ABC):
 
     @abstractmethod
+    def get_dataset_tree(self):
+        pass
+
+    @abstractmethod
     def get_statistic(self):
         pass

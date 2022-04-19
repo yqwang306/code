@@ -6,17 +6,18 @@ from DataProcessing import (
     PreProcess, Transform
 )
 
-from DataProcessing.PreProcess.Base import BasePreProcessor
+from DataProcessing.Base import SEEGDataProcessor
+
 from DataProcessing.PreProcess.EEG import EEGPreProcessor
 from DataProcessing.PreProcess.SEEG import SEEGPreProcessor
 
-from DataProcessing.Transform.Base import BaseTransformer, SEEGBaseTransformer
-from DataProcessing.Transform.StageHandler import SEEGStageHandler
+from DataProcessing.Transform.SEEG import SEEGTransformer
+
+from DataProcessing.Split.SEEG import SEEGSpliter
 
 __all__ = [
-    'BasePreProcessor',
+    'SEEGDataProcessor',
     'SEEGPreProcessor',
-    'EEGPreProcessor',
-    'SEEGBaseTransformer',
-    'SEEGStageHandler'
+    'SEEGTransformer',
+    'SEEGSpliter'
 ]

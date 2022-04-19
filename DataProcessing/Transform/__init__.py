@@ -4,10 +4,8 @@
 
 """Transforming Pipeline for EEG and SEEG Data."""
 
-from DataProcessing.Transform.Base import BaseTransformer, SEEGBaseTransformer
-from DataProcessing.Transform.StageHandler import SEEGStageHandler
+from DataProcessing.Transform.SEEG import SEEGTransformer
 
 __all__ = [
-    'SEEGBaseTransformer',
-    'SEEGStageHandler'
+    'SEEGTransformer'
 ]

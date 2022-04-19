@@ -6,6 +6,7 @@ import mne
 import os
 import numpy as np
 import glob
+import random
 
 def read_raw(path):
     """
@@ -165,6 +166,8 @@ def get_all_file_path(path, suffix='fif'):
     :return: map, {dir_path:[file1, file2, file3...]}文件夹下面对应的文件路径
     '''
 
+    if os.path.exists(path) == False:
+        return None
     file_map = {}
     path_dir = []
     dirs = os.listdir(path)
@@ -174,3 +177,105 @@ def get_all_file_path(path, suffix='fif'):
         file_p = glob.glob(os.path.join(d, new_suffix))
         file_map[d] = file_p
     return file_map
+
+def generate_path_by_flag(flag, flag_duration):
+    if flag == 0:  # pre-seizure
+        if flag_duration == 0:
+            dir = 'preseizure'
+        else:
+            if flag_duration == 1:
+                dir = 'preseizure/within_warning_time'
+            else:
+                dir = 'preseizure/before_warning_time'
+    else:
+        if flag == 1:
+            dir = "cases"  # attacking
+        else:
+            if flag == 2:
+                dir = "sleep"
+            else:
+                dir = "awake"
+    return dir
+
+def get_flag_from_path(path):
+    tmp = path.split('/')
+    if tmp[-1] == 'preseizure':
+        flag = 0
+        flag_duration = 0
+    elif tmp[-1] == 'within_warning_time':
+        flag = 0
+        flag_duration = 1
+    elif tmp[-1] == 'before_warning_time':
+        flag = 0
+        flag_duration = 2
+    elif tmp[-1] == 'cases':
+        flag = 1
+    elif tmp[-1] == 'sleep':
+        flag = 2
+    elif tmp[-1] == 'awake':
+        flag = 3
+    return flag, flag_duration
+
+def relocate_file_in_dic(result_dic, save_dir):
+    for name, path_f in result_dic:
+        save_path = os.path.join(save_dir, name)
+        data = np.load(path_f)
+        np.save(save_path, data)
+    print("Successfully writen sampling data to {}".format(save_dir))
+
+def dir_create_check(path_dir):
+    if os.path.exists(path_dir) is False:
+        os.makedirs(path_dir)
+        print("{} has been created!".format(path_dir))
+    else:
+        print("{} has existed!".format(path_dir))
+
+def get_label_data(path):  # get data include label
+    '''
+
+    :param path:
+    :return: {"path":1, "path2":2}
+    '''
+    class_name = os.listdir(path)
+    data_name = []
+    data_label = []
+    for i, name in enumerate(class_name):
+        new_path = os.path.join(path, name)
+        data_file = os.listdir(new_path)
+        path_file = [os.path.join(new_path, x) for x in data_file]
+        data_name += path_file
+        data_label += [i] * len(data_file)
+    result_data_label = dict(zip(data_name, data_label))
+    return result_data_label
+
+def matrix_normalization(data, resize_shape=(130, 200)):
+    '''
+    矩阵的归一化，主要是讲不通形状的矩阵变换为特定形状的矩阵, 矩阵的归一化主要是更改序列
+    也就是主要更改行
+    eg:(188, 200)->(130, 200)   归一化的表示
+    :param data:
+    :param resize_shape:
+    :return:
+    '''
+    data_shape = data.shape  # 这个必须要求的是numpy的文件格式
+    if data_shape[0] != resize_shape[0]:
+        if resize_shape[0] > data_shape[0]:  # 做插入处理
+            '''
+            扩大原来的矩阵
+            '''
+            d = resize_shape[0] - data_shape[0]
+            channels_add = random.sample(range(1, data_shape[0] - 1), d)
+            fake_channel = []  # 添加信道列表的值
+            for c in channels_add:
+                tmp = (data[c - 1] + data[c]) * 1.0 / 2
+                fake_channel.append(tmp)
+            data = np.insert(data, channels_add, fake_channel, axis=0)
+        else:
+            if resize_shape[0] < data_shape[0]:  # 做删除处理
+                '''
+                删除掉原来的矩阵
+                '''
+                d = data_shape[0] - resize_shape[0]
+                channels_del = random.sample(range(1, data_shape[0] - 1), d)
+                data = np.delete(data, channels_del, axis=0)
+    return data

@@ -13,7 +13,7 @@ class SpindleData:
     paths = []
     labels = []
     names = []  # 对应的文件名称列表
-    data = []  # Time_of_night序列中的所有数据
+    data = []  # self.test_path_of_night序列中的所有数据
     cases_n = 0  # 失眠患者个数
     controls_n = 0  # 正常人个数
     length = 0  # 固定长度的设置
