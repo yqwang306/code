@@ -38,16 +38,15 @@ class BasePreProcessor(ABC):
             print("ERROR: Unknown Data Type Cannot Be Recognized.")
         print("finish pre-processing")
 
+
     @abstractmethod
-    def bi_class_handle(self):
-        print("call bi_class_handle() from base")
+    def load_data(self):
         pass
 
     @abstractmethod
-    def multi_class_handle(self):
-        print("call multi_class_handle() from base")
+    def extract_valid_data(self):
         pass
-
+    # get duration data
 
 
 

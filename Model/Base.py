@@ -8,7 +8,7 @@ class BaseModel(ABC):
         pass
 
     @abstractmethod
-    def predict_model(self):
+    def predict(self):
         pass
 
     @abstractmethod
@@ -18,3 +18,13 @@ class BaseModel(ABC):
     @abstractmethod
     def load_model(self, path):
         pass
+
+    @abstractmethod
+    def calculate_loss(self):
+        pass
+
+    @abstractmethod
+    def __init__(self):
+        pass
+
+

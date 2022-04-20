@@ -37,6 +37,10 @@ class BaseSplitter(ABC):
         pass
 
     @abstractmethod
-    def perform_splitting_n_1(self):
+    def get_transformed_data(self):
         pass
-    
+
+    # @abstractmethod
+    # def perform_splitting_n_1(self):
+    #     pass
+    #

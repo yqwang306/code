@@ -54,7 +54,6 @@ class VMAML_Double_Vae(BaseMAMLNodel):
         self.vae_lr = vae_lr # TODO: never used?
         self.vae_p = VAE().to(self.device)
         self.vae_n = VAE().to(self.device)
-        self.optimizer_vae_p = torch.optim.Adam(self.vae_p.parameters(), lr=0.002)
         self.optimizer_vae_n = torch.optim.Adam(self.vae_n.parameters(), lr=0.002)
 
     # Reconstruction + KL divergence losses summed over all elements and batch
